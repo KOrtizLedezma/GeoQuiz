@@ -1,0 +1,72 @@
+:root {
+    --black: #171717;
+    --grey: #DDD;
+}
+
+.collection-form-container {
+    width: 10vw;
+    max-width: 10vw;
+    height: 10vh;
+    max-height: 10vh;
+    padding: 20px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--grey);
+}
+
+.collection-user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center; 
+    font-size: 1.5vh;
+    font-weight: bold;
+    color: var(--black);
+    height: 100%;
+}
+
+.collection-utility {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 5vh;
+    font-weight: bold;
+    color: var(--grey);
+    height: 100%;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    z-index: 999;
+}
+
+.modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 80%;
+    position: relative;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+}

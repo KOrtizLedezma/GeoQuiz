@@ -1,0 +1,28 @@
+:root {
+    --black: #171717;
+}
+
+.title {
+    text-align: center;
+    font-size: 1.5vh;
+    font-weight: bold;
+    color: var(--black);
+}
+
+.form-container {
+    width: 100%;
+    max-width: 50vw;
+    height: 70vh;
+    max-height: 70vh;
+    padding: 20px;
+    margin: 0 auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #DDD;
+}
+
+.collection-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}

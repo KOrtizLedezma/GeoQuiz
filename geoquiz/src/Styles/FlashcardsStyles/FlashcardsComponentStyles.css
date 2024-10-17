@@ -1,0 +1,53 @@
+:root {
+    --black: #171717;
+    --grey: #DDD;
+}
+
+.flashcard-container {
+    width: 50vw;
+    max-width: 50vw;
+    min-height: 70vh;
+    padding: 20px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--grey);
+}
+
+.null-component-message {
+    text-align: center;
+    font-size: 5vh;
+    font-weight: bold;
+    color: var(--grey);
+    margin-top: 30vh;
+}
+
+.title {
+    text-align: center;
+    font-size: 1.5vh;
+    font-weight: bold;
+    color: var(--black);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    z-index: 999;
+}
+
+.modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 80%;
+    position: relative;
+}
