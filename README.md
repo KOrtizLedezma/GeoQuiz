@@ -50,6 +50,18 @@ This project is divided into two parts: the **Frontend** and the **Backend**. Ea
    npm install react-icons
    ```
 
+   ```bash
+   npm install chart.js
+   ```
+
+   ```bash
+   npm install react-chartjs-2
+   ```
+
+   ```bash
+   npm install chartjs-adapter-date-fns
+   ```
+
 4. **Environment Variables:**
    You will need to create a `.env` file at the root of the `geoquiz` directory with your Firebase configuration details.
 

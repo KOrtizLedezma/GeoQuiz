@@ -40,3 +40,29 @@
     max-width: 40vw;
     height: 100%;
 }
+
+.chart-selection {
+    margin-top: 1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.chart-button {
+    background-color: var(--grey);
+    border: 1px solid var(--grey);
+    padding: 8px 16px;
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.chart-button.active {
+    background-color: var(--blue);
+    color: var(--white);
+    border-color: var(--blue);
+}
+
+.chart-button:hover {
+    background-color: #d8d8d8;
+}
