@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import "../../Styles/DashboardStyles/DashboardPageStyles.css";
-import { ScoresProvider, useScores } from '@/Contexts/ScoresContext';
+import { ScoresProvider, useScores } from '@/Contexts/ProfileContext';
 import ScoresChartComponent from './ScoresChartComponent';
 import ActivityChartComponent from './ActivityChartComponent';
 import AchievementsComponent from './AchievementsComponent';
@@ -11,10 +11,6 @@ import ProfileComponent from './ProfileComponent';
 function DashboardComponent() {
     const { userName, userLastname, scores, updateScore } = useScores();
     const [activeTab, setActiveTab] = useState('profile');
-
-    useEffect(() => {
-        console.log('Fetched scores:', scores);
-    }, [scores]);
 
     return (
         <div className='page-container'>

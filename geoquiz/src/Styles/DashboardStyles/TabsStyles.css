@@ -35,14 +35,11 @@
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-
-
-
-
 .profile-fields {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    min-width: 50%
 }
 
 .profile-field {
@@ -84,6 +81,7 @@
     border: 1px solid var(--blue);
     border-radius: 4px;
     font-size: 1rem;
+    color: var(--text);
 }
 
 .display-mode {
@@ -116,12 +114,12 @@
 }
 
 .action-button.save {
-    background-color: var(--blue);
+    background-color: var(--grey);
     color: white;
 }
 
 .action-button.save:hover {
-    background-color: var(--blue-dark);
+    background-color: var(--blue);
 }
 
 .action-button.cancel {
@@ -130,5 +128,5 @@
 }
 
 .action-button.cancel:hover {
-    background-color: var(--grey-dark);
+    background-color: var(--blue);
 }

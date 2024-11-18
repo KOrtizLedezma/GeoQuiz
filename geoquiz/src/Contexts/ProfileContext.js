@@ -8,6 +8,7 @@ export function ScoresProvider({ children }) {
   const [scores, setScores] = useState([]);
   const [userName, setUserName] = useState('');
   const [userLastname, setUserLastname] = useState('');
+  const [userEmail, setUserEmail] = useState('');
 
   // Function to get the ID token for authenticated requests
   const getIdToken = async () => {
@@ -32,7 +33,6 @@ export function ScoresProvider({ children }) {
           }
         });
 
-        console.log("Fetched scores:", response.data.scores);
         setScores(response.data.scores);
       } catch (error) {
         console.log('Error fetching scores', error);
@@ -59,7 +59,6 @@ export function ScoresProvider({ children }) {
         }
       );
 
-      console.log("Score updated:", response.data.scores);
       setScores(response.data.scores);
     } catch (error) {
       console.log('Error updating score', error);
@@ -73,16 +72,13 @@ export function ScoresProvider({ children }) {
       const uid = auth.currentUser?.uid;
       if (!uid) return;
 
-      const response = await axios.get(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}`, {
+      const response = await axios.get(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}/firstname`, {
         headers: {
           Authorization: `Bearer ${idToken}`,
         }
       });
 
-      console.log("Full response:", response);
-
       const { firstname } = response.data;
-      console.log("Fetched user name:", firstname);
       setUserName(firstname);
     } catch (error) {
       console.log('Error fetching user name', error);
@@ -96,29 +92,87 @@ export function ScoresProvider({ children }) {
       const uid = auth.currentUser?.uid;
       if (!uid) return;
 
-      const response = await axios.get(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}`, {
+      const response = await axios.get(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}/lastname`, {
         headers: {
           Authorization: `Bearer ${idToken}`,
         }
       });
 
-      console.log("Full response:", response);
-
-      const { lastname } = response.data;
-      console.log("Fetched user lastname:", lastname);
-      setUserLastname(lastname);
+      const { lastName } = response.data;
+      setUserLastname(lastName);
     } catch (error) {
       console.log('Error fetching user name', error);
     }
   };
 
+  // Fetch the user's email
+  const fetchUserEmail = async () => {
+    try {
+      const idToken = await getIdToken();
+      const uid = auth.currentUser?.uid;
+      if (!uid) return;
+
+      const response = await axios.get(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}/email`, {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        }
+      });
+
+      const { email } = response.data;
+      setUserEmail(email);
+      console.log(email);
+    } catch (error) {
+      console.log('Error fetching user email', error);
+    }
+  };
+
+  const updateUserData = async (updates) => {
+    try {
+      const idToken = await getIdToken();
+      const uid = auth.currentUser?.uid;
+      if (!uid) throw new Error('User is not authenticated.');
+      
+      const response = await axios.put(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}`,
+        updates,
+          {
+            headers: {
+                Authorization: `Bearer ${idToken}`,
+            },
+          }
+      );
+
+      console.log("User data updated successfully:", response.data);
+
+      if (updates.firstName) setUserName(updates.firstName);
+      if (updates.lastName) setUserLastname(updates.lastName);
+      if (updates.email) setUserEmail(updates.email);
+
+      return response.data;
+
+    } catch (error) {
+      console.error('Error updating user data:', error);
+      if (error.code === 'auth/requires-recent-login') {
+          alert('Please log in again to update your email.');
+      } else if (error.response?.data?.message) {
+          console.error(error.response.data.message);
+          alert(error.response.data.message);
+      } else {
+          alert('An error occurred while updating your profile.');
+      }
+
+      throw error;
+    }
+  };
+
+
   useEffect(()=>{
     fetchUserName();
     fetchUserLastname();
+    fetchUserEmail();
   }, []);
 
   return (
-    <ScoresContext.Provider value={{ scores, updateScore, userName, userLastname }}>
+    <ScoresContext.Provider value={{ scores, updateScore, userName, userLastname, userEmail, updateUserData }}>
       {children}
     </ScoresContext.Provider>
   );

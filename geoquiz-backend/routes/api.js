@@ -174,7 +174,7 @@ router.get('/users/:uid/collections/:collectionName', async (req, res) => {
 });
 
 //Get user's name
-router.get('/users/:uid', async (req, res) => {
+router.get('/users/:uid/firstname', async (req, res) => {
     try {
         const { uid } = req.params;
 
@@ -199,7 +199,7 @@ router.get('/users/:uid', async (req, res) => {
 });
 
 //Get user's lastname
-router.get('/users/:uid', async (req, res) => {
+router.get('/users/:uid/lastname', async (req, res) => {
     try {
         const { uid } = req.params;
 
@@ -210,16 +210,41 @@ router.get('/users/:uid', async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        const firstname = userDoc.data().lastName;
+        const lastName = userDoc.data().lastName;
 
-        if (!firstname) {
+        if (!lastName) {
             return res.status(404).json({ message: 'Collection not found' });
         }
 
         res.status(200).json({lastName});
     } catch (error) {
-        console.error('Error fetching name:', error);
-        res.status(500).json({ message: 'Error fetching name', error });
+        console.error('Error fetching lastname:', error);
+        res.status(500).json({ message: 'Error fetching lastname', error });
+    }
+});
+
+//Get user's email
+router.get('/users/:uid/email', async (req, res) => {
+    try {
+        const { uid } = req.params;
+
+        const userRef = db.collection('users').doc(uid);
+        const userDoc = await userRef.get();
+
+        if (!userDoc.exists) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const email = userDoc.data().email;
+
+        if (!email) {
+            return res.status(404).json({ message: 'Collection not found' });
+        }
+
+        res.status(200).json({email});
+    } catch (error) {
+        console.error('Error fetching email:', error);
+        res.status(500).json({ message: 'Error fetching email', error });
     }
 });
 
@@ -358,5 +383,44 @@ router.put('/users/:uid/collections/:collectionName/flashcards/:flashcardIndex',
         res.status(500).json({ message: 'Error updating flashcard', error });
     }
 });
+
+// Update user profile fields, including Firebase Authentication email
+router.put('/users/:uid', verifyToken, async (req, res) => {
+    try {
+        const { uid } = req.params;
+        const { firstName, lastName, email } = req.body;
+
+        const userRef = db.collection('users').doc(uid);
+        const userDoc = await userRef.get();
+
+        if (!userDoc.exists) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const updates = {};
+        if (firstName) updates.firstname = firstName;
+        if (lastName) updates.lastName = lastName;
+        if (email) updates.email = email;
+
+        if (Object.keys(updates).length > 0) {
+            await userRef.update(updates);
+        }
+
+        if (email) {
+            await admin.auth().updateUser(uid, { email });
+        }
+
+        res.status(200).json({ message: 'Profile updated successfully', updates });
+    } catch (error) {
+        console.error('Error updating user profile:', error);
+
+        if (error.code === 'auth/email-already-exists') {
+            return res.status(400).json({ message: 'Email is already in use' });
+        }
+
+        res.status(500).json({ message: 'Error updating user profile', error: error.message });
+    }
+});
+
 
 module.exports = router;
