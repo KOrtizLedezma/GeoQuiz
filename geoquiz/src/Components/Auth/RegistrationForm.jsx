@@ -31,7 +31,7 @@ function RegistrationForm() {
       if(response.status === 201){
         alert("Account created successfully!");
 
-        router.push("/flashcardpage");
+        router.push("/dashboardpage");
       }
       else{
         throw new Error('Registration failed on backend');

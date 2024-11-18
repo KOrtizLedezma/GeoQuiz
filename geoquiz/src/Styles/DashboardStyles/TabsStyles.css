@@ -1,0 +1,134 @@
+.title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--grey);
+}
+
+.content-container {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.chart-container {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chart-title {
+    font-size: 1.5rem;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+}
+
+.chart-wrapper {
+    background-color: var(--light-gray);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
+.profile-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.profile-field {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.field-label {
+    width: 150px;
+    font-weight: 500;
+    color: var(--grey);
+}
+
+.field-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.field-value {
+    font-size: 1rem;
+    color: var(--grey);
+}
+
+.edit-mode {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.edit-input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid var(--blue);
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.display-mode {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.action-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-button.edit {
+    background-color: transparent;
+    color: var(--grey);
+}
+
+.action-button.edit:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--blue);
+}
+
+.action-button.save {
+    background-color: var(--blue);
+    color: white;
+}
+
+.action-button.save:hover {
+    background-color: var(--blue-dark);
+}
+
+.action-button.cancel {
+    background-color: var(--grey);
+    color: white;
+}
+
+.action-button.cancel:hover {
+    background-color: var(--grey-dark);
+}

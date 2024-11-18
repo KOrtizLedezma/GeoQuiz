@@ -2,7 +2,7 @@ import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend, TimeScale } from 'chart.js';
 import 'chartjs-adapter-date-fns';
-import "../../Styles/DashboardStyles/ScoresChartStyles.css";
+import "../../Styles/DashboardStyles/TabsStyles.css";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend, TimeScale);
 
@@ -61,8 +61,8 @@ function ScoresChartComponent({ dataset }) {
     };
 
     return (
-        <div style={{ width: '80%', margin: '0 auto' }}>
-            <h2>Score Over Time</h2>
+        <div className='content-container'>
+            <h2 className="title">Score Over Time</h2>
             <Line data={chartData} options={options} />
         </div>
     );

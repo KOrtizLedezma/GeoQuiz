@@ -7,6 +7,7 @@ const ScoresContext = createContext();
 export function ScoresProvider({ children }) {
   const [scores, setScores] = useState([]);
   const [userName, setUserName] = useState('');
+  const [userLastname, setUserLastname] = useState('');
 
   // Function to get the ID token for authenticated requests
   const getIdToken = async () => {
@@ -88,12 +89,36 @@ export function ScoresProvider({ children }) {
     }
   };
 
+  // Fetch the user's lasstname
+  const fetchUserLastname = async () => {
+    try {
+      const idToken = await getIdToken();
+      const uid = auth.currentUser?.uid;
+      if (!uid) return;
+
+      const response = await axios.get(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}`, {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        }
+      });
+
+      console.log("Full response:", response);
+
+      const { lastname } = response.data;
+      console.log("Fetched user lastname:", lastname);
+      setUserLastname(lastname);
+    } catch (error) {
+      console.log('Error fetching user name', error);
+    }
+  };
+
   useEffect(()=>{
     fetchUserName();
+    fetchUserLastname();
   }, []);
 
   return (
-    <ScoresContext.Provider value={{ scores, updateScore, userName }}>
+    <ScoresContext.Provider value={{ scores, updateScore, userName, userLastname }}>
       {children}
     </ScoresContext.Provider>
   );

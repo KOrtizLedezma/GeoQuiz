@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
 import 'chartjs-adapter-date-fns';
-import "../../Styles/DashboardStyles/ScoresChartStyles.css";
+import "../../Styles/DashboardStyles/TabsStyles.css";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
@@ -74,11 +74,9 @@ function ActivityChartComponent({ dataset }) {
     };
 
     return (
-        <div className="chart-container">
-            <h2 className="chart-title">User Activity - Score Increase</h2>
-            <div className="chart-wrapper">
-                <Bar data={chartData} options={options} />
-            </div>
+        <div className='content-container'>
+            <h2 className="title">Progress</h2>
+            <Bar data={chartData} options={options} />
         </div>
     );
 }

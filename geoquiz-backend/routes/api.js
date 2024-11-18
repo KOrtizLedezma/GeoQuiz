@@ -198,6 +198,31 @@ router.get('/users/:uid', async (req, res) => {
     }
 });
 
+//Get user's lastname
+router.get('/users/:uid', async (req, res) => {
+    try {
+        const { uid } = req.params;
+
+        const userRef = db.collection('users').doc(uid);
+        const userDoc = await userRef.get();
+
+        if (!userDoc.exists) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const firstname = userDoc.data().lastName;
+
+        if (!firstname) {
+            return res.status(404).json({ message: 'Collection not found' });
+        }
+
+        res.status(200).json({lastName});
+    } catch (error) {
+        console.error('Error fetching name:', error);
+        res.status(500).json({ message: 'Error fetching name', error });
+    }
+});
+
 // Get all scores for a user
 router.get('/users/:uid/scores', verifyToken, async(req, res) => {
     try {

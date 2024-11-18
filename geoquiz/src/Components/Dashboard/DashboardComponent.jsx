@@ -4,10 +4,13 @@ import "../../Styles/DashboardStyles/DashboardPageStyles.css";
 import { ScoresProvider, useScores } from '@/Contexts/ScoresContext';
 import ScoresChartComponent from './ScoresChartComponent';
 import ActivityChartComponent from './ActivityChartComponent';
+import AchievementsComponent from './AchievementsComponent';
+import ActivityComponent from './ActivityComponent';
+import ProfileComponent from './ProfileComponent';
 
 function DashboardComponent() {
-    const { userName, scores, updateScore } = useScores();
-    const [selectedChart, setSelectedChart] = useState("scores"); // "scores" or "activity"
+    const { userName, userLastname, scores, updateScore } = useScores();
+    const [activeTab, setActiveTab] = useState('profile');
 
     useEffect(() => {
         console.log('Fetched scores:', scores);
@@ -15,54 +18,50 @@ function DashboardComponent() {
 
     return (
         <div className='page-container'>
-            <h1 className='title'>Hi {userName}</h1>
+            {"<h1 className='title'>Hi {userName}</h1>"}
             <div className='two-sides-container'>
                 <div className='left-side'>
-                    <div className='container'>
-                        <h2>Your Scores</h2>
-                        {scores && scores.length > 0 ? (
-                            <ul>
-                                {scores.map((score, index) => (
-                                    <li key={index}>
-                                        {score.date}: {score.currentScore}
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : (
-                            <p>No scores available</p>
-                        )}
+                    <div className='left-container'>
+                        <h1 className='title'>Hi {userName}</h1>
+                        <button className={`button ${activeTab === 'achievements' ? 'active' : ''}`} onClick={() => setActiveTab('achievements')}>
+                            {/*Badges Chart*/}
+                            Achievements
+                        </button>
+                        <button className={`button ${activeTab === 'activity' ? 'active' : ''}`} onClick={() => setActiveTab('activity')}>
+                            {/*Recent Activity*/}
+                            Activity
+                        </button>
+                        <button className={`button ${activeTab === 'dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('dashboard')}>
+                            {/*Scores Chart*/}
+                            Dashboard
+                        </button>
+                        <button className={`button ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => setActiveTab('profile')}>
+                            {/*Profile Information*/}
+                            Profile
+                        </button>
+                        <button className={`button ${activeTab === 'progress' ? 'active' : ''}`} onClick={() => setActiveTab('progress')}>
+                            {/*Activity Chart*/}
+                            Progress
+                        </button>
                     </div>
                 </div>
                 <div className='right-side'>
-                    <div className='container'>
-                      <div className='chart-selection'>
-                        <button 
-                          onClick={() => setSelectedChart("scores")} 
-                          className={`chart-button ${selectedChart === "scores" ? "active" : ""}`}
-                          >
-                          View Scores Chart
-                        </button>
-                        <button 
-                          onClick={() => setSelectedChart("activity")} 
-                          className={`chart-button ${selectedChart === "activity" ? "active" : ""}`}
-                          >
-                          View Activity Chart
-                        </button>
-                      </div>
-                      {selectedChart === "scores" ? (
-                          <ScoresChartComponent dataset={scores} />
-                      ) : (
-                          <ActivityChartComponent dataset={scores} />
-                      )}
-                    </div>
+                    {activeTab === "dashboard" ? (
+                        <ScoresChartComponent dataset={scores} />
+                    ) : activeTab === "progress" ? (
+                        <ActivityChartComponent dataset={scores} />
+                    ) : activeTab === "achievements" ? (
+                        <AchievementsComponent />
+                    ) : activeTab === "activity" ? (
+                        <ActivityComponent />
+                    ) : activeTab === "profile" ? (
+                        <ProfileComponent />
+                    ) : (
+                        // Default case - will show dashboard or a logo
+                        <></>
+                    )}
                 </div>
             </div>
-            <button 
-                onClick={() => updateScore(10)} 
-                className="bg-blue-500 text-black px-4 py-2 rounded-md font-semibold text-lg hover:bg-blue-700 transition duration-300"
-            >
-                Increase Score by 10
-            </button>
         </div>
     );
 }
