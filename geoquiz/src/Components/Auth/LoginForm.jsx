@@ -27,7 +27,7 @@ function LoginForm() {
       if(response.status === 200){
         alert("Login successful!");
 
-        router.push("/flashcardpage");
+        router.push("/dashboardpage");
       }
       else{
         throw new Error('Login failed on backend');
