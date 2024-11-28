@@ -10,7 +10,8 @@ function ScoresChartComponent({ dataset }) {
     const maxScore = Math.max(...dataset.map(entry => entry.currentScore));
 
     const rootStyle = getComputedStyle(document.documentElement);
-    const lineColor = rootStyle.getPropertyValue('--blue').trim();
+    const lineColor = rootStyle.getPropertyValue('--green').trim();
+    const fillColor = rootStyle.getPropertyValue('--green').trim();
 
     const chartData = {
         labels: dataset.map(entry => entry.date),
@@ -19,7 +20,7 @@ function ScoresChartComponent({ dataset }) {
                 label: 'Score',
                 data: dataset.map(entry => entry.currentScore),
                 borderColor: lineColor,
-                backgroundColor: lineColor,
+                backgroundColor: fillColor,
                 fill: true,
                 tension: 0.1,
                 pointRadius: 5,

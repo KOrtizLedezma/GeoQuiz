@@ -7,14 +7,14 @@
     padding: 20px;
     margin-bottom: 10px;
     border-radius: 10px;
-    border: 1px solid var(--grey2);
+    border: 1px solid var(--black);
 }
 
 .null-component-message {
     text-align: center;
     font-size: 5vh;
     font-weight: bold;
-    color: var(--grey2);
+    color: var(--darkergray);
     margin-top: 30vh;
 }
 
@@ -40,7 +40,7 @@
 }
 
 .modal {
-    background-color: var(--white);
+    background-color: var(--backgroundFlashcard);
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
