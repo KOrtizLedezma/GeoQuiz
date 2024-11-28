@@ -1,0 +1,122 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.game-container {
+    max-width: 32rem;
+    margin: 0 auto;
+    padding: 1rem;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.question-counter {
+    font-size: 1.125rem;
+    font-weight: bold;
+    color: var(--text);
+}
+
+.timer {
+    font-size: 1.125rem;
+    font-weight: bold;
+    color: #2563eb;
+}
+
+.question-card {
+    background-color: var(--white);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 50vw;
+}
+
+.question-text {
+    color: var(--text);
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.answer-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: var(--text);
+}
+
+.answer-button {
+    width: 100%;
+    padding: 0.75rem;
+    text-align: center;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+    background-color: #f3f4f6;
+}
+
+.answer-button:hover:not(:disabled) {
+    background-color: #e5e7eb;
+}
+
+.answer-button.correct {
+    background-color: var(--green);
+    color: white;
+}
+
+.answer-button.incorrect {
+    background-color: var(--red);
+    color: white;
+}
+
+.feedback-message {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background-color: var(--yellow);
+    border-radius: 0.5rem;
+    text-align: center;
+    color: var(--text);
+}
+
+.game-over {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    color: var(--text);
+}
+
+.game-over-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: var(--text);
+}
+
+.final-score {
+    font-size: 1.25rem;
+}
+
+.play-again-button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #2563eb;
+    color: white;
+    border-radius: 0.5rem;
+}
+
+.play-again-button:hover {
+    background-color: #1d4ed8;
+}

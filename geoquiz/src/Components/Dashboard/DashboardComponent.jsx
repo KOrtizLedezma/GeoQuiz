@@ -7,10 +7,31 @@ import ActivityChartComponent from './ActivityChartComponent';
 import AchievementsComponent from './AchievementsComponent';
 import ActivityComponent from './ActivityComponent';
 import ProfileComponent from './ProfileComponent';
+import TriviaGameComponent from '../Trivia/TriviaGameComponent';
 
 function DashboardComponent() {
     const { userName, userLastname, scores, updateScore } = useScores();
     const [activeTab, setActiveTab] = useState('profile');
+    const [activeSubTab, setActiveSubTab] = useState(null);
+    const [isTrainingOpen, setIsTrainingOpen] = useState(false);
+
+    const handleTabClick = (tab) => {
+        setActiveTab(tab);
+        if (tab !== 'training') {
+            setIsTrainingOpen(false);
+            setActiveSubTab(null);
+        }
+    };
+
+    const handleTrainingClick = () => {
+        setIsTrainingOpen(!isTrainingOpen);
+        setActiveTab('training');
+    };
+
+    const handleDifficultySelect = (difficulty) => {
+        setActiveSubTab(difficulty);
+        setActiveTab('training');
+    };
 
     return (
         <div className='page-container'>
@@ -19,23 +40,23 @@ function DashboardComponent() {
                 <div className='left-side'>
                     <div className='left-container'>
                         <h1 className='title'>Hi {userName}</h1>
-                        <button className={`button ${activeTab === 'achievements' ? 'active' : ''}`} onClick={() => setActiveTab('achievements')}>
+                        <button className={`button ${activeTab === 'achievements' ? 'active' : ''}`} onClick={() => handleTabClick('achievements')}>
                             {/*Badges Chart*/}
                             Achievements
                         </button>
-                        <button className={`button ${activeTab === 'activity' ? 'active' : ''}`} onClick={() => setActiveTab('activity')}>
+                        <button className={`button ${activeTab === 'activity' ? 'active' : ''}`} onClick={() => handleTabClick('activity')}>
                             {/*Recent Activity*/}
                             Activity
                         </button>
-                        <button className={`button ${activeTab === 'dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('dashboard')}>
+                        <button className={`button ${activeTab === 'dashboard' ? 'active' : ''}`} onClick={() => handleTabClick('dashboard')}>
                             {/*Scores Chart*/}
                             Dashboard
                         </button>
-                        <button className={`button ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => setActiveTab('profile')}>
+                        <button className={`button ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => handleTabClick('profile')}>
                             {/*Profile Information*/}
                             Profile
                         </button>
-                        <button className={`button ${activeTab === 'progress' ? 'active' : ''}`} onClick={() => setActiveTab('progress')}>
+                        <button className={`button ${activeTab === 'progress' ? 'active' : ''}`} onClick={() => handleTabClick('progress')}>
                             {/*Activity Chart*/}
                             Progress
                         </button>

@@ -10,6 +10,8 @@ export function ScoresProvider({ children }) {
   const [userLastname, setUserLastname] = useState('');
   const [userEmail, setUserEmail] = useState('');
 
+  const BASE_URL = `http://localhost:${process.env.NEXT_PUBLIC_PORT}`;
+
   // Function to get the ID token for authenticated requests
   const getIdToken = async () => {
     const currentUser = auth.currentUser;
@@ -27,7 +29,7 @@ export function ScoresProvider({ children }) {
         const uid = auth.currentUser?.uid;
         if (!uid) return;
 
-        const response = await axios.get(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}/scores`, {
+        const response = await axios.get(`${BASE_URL}/api/users/${uid}/scores`, {
           headers: {
             Authorization: `Bearer ${idToken}`,
           }
@@ -49,8 +51,7 @@ export function ScoresProvider({ children }) {
       const uid = auth.currentUser?.uid;
       if (!uid) return;
 
-      const response = await axios.post(
-        `http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}/scores`,
+      const response = await axios.post(`${BASE_URL}/api/users/${uid}/scores`,
         { scoreIncrement },
         {
           headers: {
@@ -72,7 +73,7 @@ export function ScoresProvider({ children }) {
       const uid = auth.currentUser?.uid;
       if (!uid) return;
 
-      const response = await axios.get(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}/firstname`, {
+      const response = await axios.get(`${BASE_URL}/api/users/${uid}/firstname`, {
         headers: {
           Authorization: `Bearer ${idToken}`,
         }
@@ -92,7 +93,7 @@ export function ScoresProvider({ children }) {
       const uid = auth.currentUser?.uid;
       if (!uid) return;
 
-      const response = await axios.get(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}/lastname`, {
+      const response = await axios.get(`${BASE_URL}/api/users/${uid}/lastname`, {
         headers: {
           Authorization: `Bearer ${idToken}`,
         }
@@ -112,7 +113,7 @@ export function ScoresProvider({ children }) {
       const uid = auth.currentUser?.uid;
       if (!uid) return;
 
-      const response = await axios.get(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}/email`, {
+      const response = await axios.get(`${BASE_URL}/api/users/${uid}/email`, {
         headers: {
           Authorization: `Bearer ${idToken}`,
         }
@@ -132,7 +133,7 @@ export function ScoresProvider({ children }) {
       const uid = auth.currentUser?.uid;
       if (!uid) throw new Error('User is not authenticated.');
       
-      const response = await axios.put(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}`,
+      const response = await axios.put(`${BASE_URL}/api/users/${uid}`,
         updates,
           {
             headers: {

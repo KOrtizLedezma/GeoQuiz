@@ -81,7 +81,7 @@ function ProfileComponent() {
                             ) : (
                                 <div className="display-mode">
                                     <span className="field-value">{value}</span>
-                                    {field !== "currentScore" && ( // Disable edit for currentScore
+                                    {field !== "currentScore" && (
                                         <button onClick={() => handleEdit(field, value)} className="action-button edit">
                                             <FiEdit size={18} />
                                         </button>

@@ -1,8 +1,12 @@
 const express = require('express');
+const axios = require('axios');
 const router = express.Router();
 const admin = require('firebase-admin');
 const db = admin.firestore();
 const verifyToken = require('../verifyToken');
+
+require('dotenv').config();
+const TRIVIA_API_URL = process.env.NEXT_PUBLIC_TRIVIA_API_URL;
 
 // Register a new user
 router.post('/register', async (req, res) => {
@@ -421,6 +425,25 @@ router.put('/users/:uid', verifyToken, async (req, res) => {
         res.status(500).json({ message: 'Error updating user profile', error: error.message });
     }
 });
+
+// Fetch geography questions
+router.get('/trivia/geography', async (req, res) => {
+    const { amount = 10, difficulty = 'medium' } = req.query; // Accept difficulty from query
+    try {
+        const response = await axios.get(TRIVIA_API_URL, {
+            params: {
+                categories: 'geography',
+                limit: amount,
+                difficulty,
+            },
+        });
+        res.status(200).json(response.data);
+    } catch (error) {
+        console.error('Error fetching geography questions:', error.message);
+        res.status(500).json({ message: 'Failed to fetch geography questions', error: error.message });
+    }
+});
+
 
 
 module.exports = router;

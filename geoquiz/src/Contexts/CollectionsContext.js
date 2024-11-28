@@ -7,6 +7,7 @@ const CollectionsContext = createContext();
 export function CollectionsProvider({ children }) {
   const [collectionNames, setCollectionNames] = useState([]);
   const [collectionDetails, setCollectionDetails] = useState({});
+  const BASE_URL = `http://localhost:${process.env.NEXT_PUBLIC_PORT}`;
 
   const getIdToken = async () => {
     const currentUser = auth.currentUser;
@@ -22,7 +23,7 @@ export function CollectionsProvider({ children }) {
       try {
         const idToken = await getIdToken();
         const uid = auth.currentUser.uid;
-        const response = await axios.get(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}/collections`, {
+        const response = await axios.get(`${BASE_URL}/api/users/${uid}/collections`, {
           headers: {
             Authorization: `Bearer ${idToken}`,
           }
@@ -47,7 +48,7 @@ export function CollectionsProvider({ children }) {
           const uid = auth.currentUser.uid;
 
           const collectionDetailsPromises = collectionNames.map(async (collectionName) => {
-            const response = await axios.get(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}/collections/${collectionName}`, {
+            const response = await axios.get(`${BASE_URL}/api/users/${uid}/collections/${collectionName}`, {
               headers: {
                 Authorization: `Bearer ${idToken}`,
               }
@@ -70,7 +71,7 @@ export function CollectionsProvider({ children }) {
     try {
       const idToken = await getIdToken();
       const uid = auth.currentUser.uid;
-      const response = await axios.post(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}/collections`, newCollection, {
+      const response = await axios.post(`${BASE_URL}/api/users/${uid}/collections`, newCollection, {
         headers: {
           Authorization: `Bearer ${idToken}`,
         }
@@ -90,7 +91,7 @@ export function CollectionsProvider({ children }) {
     try {
       const idToken = await getIdToken();
       const uid = auth.currentUser.uid;
-      await axios.post(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}/collections/${collectionName}/flashcards`, flashcard, {
+      await axios.post(`${BASE_URL}/api/users/${uid}/collections/${collectionName}/flashcards`, flashcard, {
         headers: {
           Authorization: `Bearer ${idToken}`,
         }
@@ -116,7 +117,7 @@ export function CollectionsProvider({ children }) {
     try {
       const idToken = await getIdToken();
       const uid = auth.currentUser.uid;
-      await axios.delete(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}/collections/${collectionName}/flashcards/${flashcardIndex}`, {
+      await axios.delete(`${BASE_URL}/api/users/${uid}/collections/${collectionName}/flashcards/${flashcardIndex}`, {
         headers: {
           Authorization: `Bearer ${idToken}`,
         }
@@ -140,7 +141,7 @@ export function CollectionsProvider({ children }) {
       const idToken = await getIdToken();
       const uid = auth.currentUser.uid;
       await axios.put(
-        `http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}/collections/${collectionName}/flashcards/${flashcardIndex}`,
+        `${BASE_URL}/api/users/${uid}/collections/${collectionName}/flashcards/${flashcardIndex}`,
         updatedFlashcard,
         {
           headers: {
