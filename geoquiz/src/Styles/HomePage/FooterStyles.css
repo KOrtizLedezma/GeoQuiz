@@ -12,7 +12,7 @@
 .group-name {
     font-size: 1.2rem;
     font-weight: bold;
-    color: var(--grey);
+    color: var(--dark-gray);
     text-align: right;
 }
   
