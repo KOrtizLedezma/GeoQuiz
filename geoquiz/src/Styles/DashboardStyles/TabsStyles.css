@@ -130,3 +130,43 @@
 .action-button.cancel:hover {
     background-color: var(--blue);
 }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for better spacing */
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .grid-item {
+    background-color: var(--grey2);
+    color: var(--text);
+    text-align: center;
+    padding: 20px;
+    border: 1px solid var(--grey);
+    border-radius: 10px; /* Rounded corners for cards */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    width: 300px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .grid-item:hover {
+    transform: translateY(-10px); /* Hover effect to lift the card */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+  }
+  
+  .grid-item h3 {
+    font-size: 1.2rem;
+    margin: 10px 0;
+  }
+  
+  .grid-item p {
+    font-size: 0.9rem;
+    color: var(--grey);
+  }

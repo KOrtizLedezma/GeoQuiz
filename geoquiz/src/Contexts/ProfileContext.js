@@ -10,6 +10,7 @@ export function ScoresProvider({ children }) {
   const [userLastname, setUserLastname] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [activities, setActivities] = useState([]);
+  const [badges, setBadges] = useState([]);
 
   const BASE_URL = `http://localhost:${process.env.NEXT_PUBLIC_PORT}`;
 
@@ -122,7 +123,6 @@ export function ScoresProvider({ children }) {
 
       const { email } = response.data;
       setUserEmail(email);
-      console.log(email);
     } catch (error) {
       console.log('Error fetching user email', error);
     }
@@ -208,15 +208,58 @@ export function ScoresProvider({ children }) {
     }
   };
 
+  // Fetch all badges
+  const fetchBadges = async () => {
+    try {
+      const idToken = await getIdToken();
+      const uid = auth.currentUser?.uid;
+      if (!uid) return;
+
+      const response = await axios.get(`${BASE_URL}/api/users/${uid}/badges`, {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        }
+      });
+
+      setBadges(response.data);
+    } catch (error) {
+      console.log('Error fetching badges', error);
+    }
+  };
+
+  // Update the user's badges
+  const updateBadges = async () => {
+    try {
+      const idToken = await getIdToken();
+      const uid = auth.currentUser?.uid;
+      if (!uid) return;
+      
+      const response = await axios.put(
+        `${BASE_URL}/api/users/${uid}/badges`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          }
+        }
+      );
+  
+      setBadges(response.data.badges);
+    } catch (error) {
+      console.log('Error updating badges', error);
+    }
+  };
+
   useEffect(()=>{
     fetchUserName();
     fetchUserLastname();
     fetchUserEmail();
     fetchActivities();
+    fetchBadges();
   }, []);
 
   return (
-    <ScoresContext.Provider value={{ scores, updateScore, userName, userLastname, userEmail, updateUserData, fetchActivities, postActivity, activities }}>
+    <ScoresContext.Provider value={{ scores, updateScore, userName, userLastname, userEmail, updateUserData, fetchActivities, postActivity, activities, badges, updateBadges }}>
       {children}
     </ScoresContext.Provider>
   );

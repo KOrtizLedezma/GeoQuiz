@@ -31,7 +31,8 @@ router.post('/register', async (req, res) => {
           lastName: lastName,
           collections: [],
           activities: initialActivities,
-          scores: [{date: new Date().toISOString(), currentScore: 0}]
+          scores: [{date: new Date().toISOString().split('T')[0], currentScore: 0}],
+          badges: [{lvl1: false}, {lvl2: false}, {lvl3: false}, {lvl4: false}]
         });
     
         res.status(201).json({ message: 'User registered successfully', uid });
@@ -185,6 +186,78 @@ router.get('/users/:uid/collections/:collectionName', async (req, res) => {
     }
 });
 
+//Get Badges
+router.get('/users/:uid/badges', async (req, res) => {
+    try {
+        const { uid } = req.params;
+
+        const userRef = db.collection('users').doc(uid);
+        const userDoc = await userRef.get();
+
+        if (!userDoc.exists) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const badges = userDoc.data().badges;
+
+        if (!badges || badges.length === 0) {
+            return res.status(404).json({ message: 'No badges found' });
+        }
+
+        res.status(200).json(badges);
+    } catch (error) {
+        console.error('Error fetching badges:', error);
+        res.status(500).json({ message: 'Error fetching badges', error });
+    }
+});
+
+// Update Badges
+router.put('/users/:uid/badges', async (req, res) => {
+    try {
+        const { uid } = req.params;
+
+        const userRef = db.collection('users').doc(uid);
+        const userDoc = await userRef.get();
+
+        if (!userDoc.exists) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const userData = userDoc.data();
+        const scores = userData.scores || [];
+
+        if (scores.length === 0) {
+            return res.status(400).json({ message: 'No scores found for user' });
+        }
+
+        const latestScore = scores[scores.length - 1]?.currentScore;
+
+        if (latestScore === undefined) {
+            return res.status(400).json({ message: 'Invalid score format' });
+        }
+
+        const badges = userData.badges || [
+            { lvl1: false },
+            { lvl2: false },
+            { lvl3: false },
+            { lvl4: false },
+        ];
+
+        const badgeThresholds = [250, 500, 750, 1000];
+        const badgeKeys = ['lvl1', 'lvl2', 'lvl3', 'lvl4'];
+
+        badgeThresholds.forEach((threshold, index) => {
+            badges[index] = { [badgeKeys[index]]: badges[index]?.[badgeKeys[index]] || (latestScore >= threshold) };
+        });
+
+        await userRef.update({ badges });
+        res.status(200).json({ message: 'Badges updated successfully', badges });
+    } catch (error) {
+        console.error('Error updating badges:', error);
+        res.status(500).json({ message: 'Error updating badges', error });
+    }
+});
+
 //Get Activities
 router.get('/users/:uid/activities', async (req, res) => {
     try {
@@ -245,7 +318,6 @@ router.post('/users/:uid/activities', async (req, res) => {
         res.status(500).json({ message: 'Error adding activity', error: error.message });
     }
 });
-
 
 //Get user's name
 router.get('/users/:uid/firstname', async (req, res) => {

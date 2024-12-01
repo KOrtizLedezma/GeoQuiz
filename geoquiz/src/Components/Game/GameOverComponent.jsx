@@ -3,7 +3,7 @@ import '../../Styles/GameStyles/Game.css';
 import { useScores } from '@/Contexts/ProfileContext';
 
 const GameOverComponent = ({ score, totalQuestions, onPlayAgain, difficulty }) => {
-    const { updateScore, postActivity } = useScores();
+    const { updateScore, postActivity, updateBadges } = useScores();
     const [gameState, setGameState] = useState(true);
 
     useEffect(() => {
@@ -34,15 +34,16 @@ const GameOverComponent = ({ score, totalQuestions, onPlayAgain, difficulty }) =
             };
 
             await postActivity(newActivity);
-            setGameState(false); // Mark the game as processed
+            await updateBadges();
+            setGameState(false);
         };
 
         handleGameOver();
-    }, []); // Empty dependency array ensures this runs only once
+    }, []);
 
     const handlePlayAgain = () => {
         onPlayAgain();
-        setGameState(false); // Reset state
+        setGameState(false);
     };
 
     return (

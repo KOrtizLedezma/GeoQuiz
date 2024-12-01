@@ -6,8 +6,6 @@ function RecentActivityComponent() {
 
     const { activities } = useScores();
 
-    console.log(activities);
-
     const validActivities = activities?.filter(
         (activity) => activity.score !== null && activity.difficulty !== null && activity.date !== null
     ) || [];

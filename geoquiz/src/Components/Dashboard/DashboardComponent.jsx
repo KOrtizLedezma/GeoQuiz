@@ -1,13 +1,11 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import "../../Styles/DashboardStyles/DashboardPageStyles.css";
-import { ScoresProvider, useScores } from '@/Contexts/ProfileContext';
+import { useScores } from '@/Contexts/ProfileContext';
 import ScoresChartComponent from './ScoresChartComponent';
 import ActivityChartComponent from './ActivityChartComponent';
 import AchievementsComponent from './AchievementsComponent';
-import ActivityComponent from './ActivityComponent';
 import ProfileComponent from './ProfileComponent';
-import TriviaGameComponent from '../Trivia/TriviaGameComponent';
 import RecentActivityComponent from './RecentActivityComponent';
 
 function DashboardComponent() {
