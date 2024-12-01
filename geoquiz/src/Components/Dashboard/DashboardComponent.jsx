@@ -8,6 +8,7 @@ import AchievementsComponent from './AchievementsComponent';
 import ActivityComponent from './ActivityComponent';
 import ProfileComponent from './ProfileComponent';
 import TriviaGameComponent from '../Trivia/TriviaGameComponent';
+import RecentActivityComponent from './RecentActivityComponent';
 
 function DashboardComponent() {
     const { userName, userLastname, scores, updateScore } = useScores();
@@ -70,7 +71,7 @@ function DashboardComponent() {
                     ) : activeTab === "achievements" ? (
                         <AchievementsComponent />
                     ) : activeTab === "activity" ? (
-                        <ActivityComponent />
+                        <RecentActivityComponent />
                     ) : activeTab === "profile" ? (
                         <ProfileComponent />
                     ) : (

@@ -18,12 +18,20 @@ router.post('/register', async (req, res) => {
         }
     
         const userRef = db.collection('users').doc(uid);
+
+        const initialActivities = Array(10).fill(null).map(() => ({
+            score: null,
+            difficulty: null,
+            date: null
+        }));
+
         await userRef.set({
           email: email,
           firstname: firstName,
           lastName: lastName,
           collections: [],
-          scores: [{date: "2024-10-22", currentScore: 0},{date: "2024-10-23", currentScore: 70},{date: "2024-10-24", currentScore: 100}]
+          activities: initialActivities,
+          scores: [{date: new Date().toISOString(), currentScore: 0}]
         });
     
         res.status(201).json({ message: 'User registered successfully', uid });
@@ -176,6 +184,68 @@ router.get('/users/:uid/collections/:collectionName', async (req, res) => {
         res.status(500).json({ message: 'Error fetching collection', error });
     }
 });
+
+//Get Activities
+router.get('/users/:uid/activities', async (req, res) => {
+    try {
+        const { uid } = req.params;
+
+        const userRef = db.collection('users').doc(uid);
+        const userDoc = await userRef.get();
+
+        if (!userDoc.exists) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const activities = userDoc.data().activities;
+
+        if (!activities || activities.length === 0) {
+            return res.status(404).json({ message: 'No activities found' });
+        }
+
+        res.status(200).json(activities);
+    } catch (error) {
+        console.error('Error fetching activities:', error);
+        res.status(500).json({ message: 'Error fetching activities', error });
+    }
+});
+
+// Post Activity
+router.post('/users/:uid/activities', async (req, res) => {
+    try {
+        const { uid } = req.params;
+        const { score, difficulty, date } = req.body;
+
+        if (!score || !difficulty || !date) {
+            return res.status(400).json({ message: 'Missing required fields (score, difficulty, date)' });
+        }
+
+        const userRef = db.collection('users').doc(uid);
+        const userDoc = await userRef.get();
+
+        if (!userDoc.exists) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        let activities = userDoc.data().activities || [];
+
+        // Maintain the size of the activities array (maximum 10)
+        if (activities.length >= 10) {
+            activities.shift();
+        }
+
+        const newActivity = { score, difficulty, date };
+        activities.push(newActivity);
+
+        await userRef.update({ activities });
+
+        res.status(201).json({ message: 'Activity added successfully', activities });
+    } catch (error) {
+        console.error('Error adding activity:', error);
+        res.status(500).json({ message: 'Error adding activity', error: error.message });
+    }
+});
+
 
 //Get user's name
 router.get('/users/:uid/firstname', async (req, res) => {

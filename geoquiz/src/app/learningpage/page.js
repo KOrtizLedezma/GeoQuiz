@@ -4,14 +4,17 @@ import { AuthProvider } from '@/Contexts/AuthContext';
 import GameComponent from '@/Components/Game/GameComponent';
 import Header from '@/Components/Header/HeaderComponent';
 import { TriviaProvider } from '@/Contexts/TriviaContext';
+import { ScoresProvider } from '@/Contexts/ProfileContext';
 
 function LearningPageComponent() {
 
   return (
     <AuthProvider>
       <TriviaProvider>
-        <Header />
-        <GameComponent/>
+        <ScoresProvider>
+          <Header />
+          <GameComponent/>
+        </ScoresProvider>
       </TriviaProvider>
     </AuthProvider>
   );

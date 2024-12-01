@@ -63,11 +63,11 @@
     text-align: center;
     border-radius: 0.5rem;
     transition: background-color 0.2s;
-    background-color: #f3f4f6;
+    background-color: var(--grey2);
 }
 
 .answer-button:hover:not(:disabled) {
-    background-color: #e5e7eb;
+    background-color: var(--placeholder);
 }
 
 .answer-button.correct {

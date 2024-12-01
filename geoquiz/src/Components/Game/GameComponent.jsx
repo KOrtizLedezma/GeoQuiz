@@ -148,6 +148,7 @@ function GameComponent() {
                     score={score}
                     totalQuestions={questions.length}
                     onPlayAgain={handlePlayAgain}
+                    difficulty={difficulty}
                 />
             )}
         </div>
