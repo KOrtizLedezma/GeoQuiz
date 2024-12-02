@@ -9,6 +9,10 @@ export function ScoresProvider({ children }) {
   const [userName, setUserName] = useState('');
   const [userLastname, setUserLastname] = useState('');
   const [userEmail, setUserEmail] = useState('');
+  const [activities, setActivities] = useState([]);
+  const [badges, setBadges] = useState([]);
+
+  const BASE_URL = `http://localhost:${process.env.NEXT_PUBLIC_PORT}`;
 
   // Function to get the ID token for authenticated requests
   const getIdToken = async () => {
@@ -27,7 +31,7 @@ export function ScoresProvider({ children }) {
         const uid = auth.currentUser?.uid;
         if (!uid) return;
 
-        const response = await axios.get(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}/scores`, {
+        const response = await axios.get(`${BASE_URL}/api/users/${uid}/scores`, {
           headers: {
             Authorization: `Bearer ${idToken}`,
           }
@@ -49,8 +53,7 @@ export function ScoresProvider({ children }) {
       const uid = auth.currentUser?.uid;
       if (!uid) return;
 
-      const response = await axios.post(
-        `http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}/scores`,
+      const response = await axios.post(`${BASE_URL}/api/users/${uid}/scores`,
         { scoreIncrement },
         {
           headers: {
@@ -72,7 +75,7 @@ export function ScoresProvider({ children }) {
       const uid = auth.currentUser?.uid;
       if (!uid) return;
 
-      const response = await axios.get(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}/firstname`, {
+      const response = await axios.get(`${BASE_URL}/api/users/${uid}/firstname`, {
         headers: {
           Authorization: `Bearer ${idToken}`,
         }
@@ -92,7 +95,7 @@ export function ScoresProvider({ children }) {
       const uid = auth.currentUser?.uid;
       if (!uid) return;
 
-      const response = await axios.get(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}/lastname`, {
+      const response = await axios.get(`${BASE_URL}/api/users/${uid}/lastname`, {
         headers: {
           Authorization: `Bearer ${idToken}`,
         }
@@ -112,7 +115,7 @@ export function ScoresProvider({ children }) {
       const uid = auth.currentUser?.uid;
       if (!uid) return;
 
-      const response = await axios.get(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}/email`, {
+      const response = await axios.get(`${BASE_URL}/api/users/${uid}/email`, {
         headers: {
           Authorization: `Bearer ${idToken}`,
         }
@@ -120,19 +123,19 @@ export function ScoresProvider({ children }) {
 
       const { email } = response.data;
       setUserEmail(email);
-      console.log(email);
     } catch (error) {
       console.log('Error fetching user email', error);
     }
   };
-
+  
+  // Update the data of the user ex. name, email or other fields
   const updateUserData = async (updates) => {
     try {
       const idToken = await getIdToken();
       const uid = auth.currentUser?.uid;
       if (!uid) throw new Error('User is not authenticated.');
       
-      const response = await axios.put(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/users/${uid}`,
+      const response = await axios.put(`${BASE_URL}/api/users/${uid}`,
         updates,
           {
             headers: {
@@ -164,15 +167,99 @@ export function ScoresProvider({ children }) {
     }
   };
 
+  // Fetch all activities
+  const fetchActivities = async () => {
+    try {
+      const idToken = await getIdToken();
+      const uid = auth.currentUser?.uid;
+      if (!uid) return;
+
+      const response = await axios.get(`${BASE_URL}/api/users/${uid}/activities`, {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        }
+      });
+
+      setActivities(response.data);
+    } catch (error) {
+      console.log('Error fetching activities', error);
+    }
+  };
+
+  // Post a new activity
+  const postActivity = async (activity) => {
+    try {
+      const idToken = await getIdToken();
+      const uid = auth.currentUser?.uid;
+      if (!uid) return;
+
+      const response = await axios.post(`${BASE_URL}/api/users/${uid}/activities`,
+        activity,
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          }
+        }
+      );
+
+      setActivities(response.data.activities);
+    } catch (error) {
+      console.log('Error posting activity', error);
+    }
+  };
+
+  // Fetch all badges
+  const fetchBadges = async () => {
+    try {
+      const idToken = await getIdToken();
+      const uid = auth.currentUser?.uid;
+      if (!uid) return;
+
+      const response = await axios.get(`${BASE_URL}/api/users/${uid}/badges`, {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        }
+      });
+
+      setBadges(response.data);
+    } catch (error) {
+      console.log('Error fetching badges', error);
+    }
+  };
+
+  // Update the user's badges
+  const updateBadges = async () => {
+    try {
+      const idToken = await getIdToken();
+      const uid = auth.currentUser?.uid;
+      if (!uid) return;
+      
+      const response = await axios.put(
+        `${BASE_URL}/api/users/${uid}/badges`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          }
+        }
+      );
+  
+      setBadges(response.data.badges);
+    } catch (error) {
+      console.log('Error updating badges', error);
+    }
+  };
 
   useEffect(()=>{
     fetchUserName();
     fetchUserLastname();
     fetchUserEmail();
+    fetchActivities();
+    fetchBadges();
   }, []);
 
   return (
-    <ScoresContext.Provider value={{ scores, updateScore, userName, userLastname, userEmail, updateUserData }}>
+    <ScoresContext.Provider value={{ scores, updateScore, userName, userLastname, userEmail, updateUserData, fetchActivities, postActivity, activities, badges, updateBadges }}>
       {children}
     </ScoresContext.Provider>
   );

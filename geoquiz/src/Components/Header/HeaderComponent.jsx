@@ -33,8 +33,9 @@ function Header() {
             </>
           ) : (
             <>
-              <li><a href="/flashcardpage">Flashcards</a></li>
               <li><a href="/dashboardpage">Dashboard</a></li>
+              <li><a href="/flashcardpage">Flashcards</a></li>
+              <li><a href="/learningpage">Practice</a></li>
               <li><a href="/" onClick={handleLogout}>Sign out</a></li>
             </>
           )}

@@ -92,3 +92,69 @@
 .button.active::before {
     height: 100%;
 }
+
+.recent-activity {
+    margin: 20px;
+    padding: 20px;
+    background-color: var(--grey2);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.recent-activity-title {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--text);
+    text-align: center;
+}
+
+.activity-list-container {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.activity-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.activity-item {
+    background-color: var(--white);
+    border: 1px solid var(--grey2);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    color: var(--text);
+    max-height: 600px;
+}
+
+.activity-item:hover {
+    transform: translateY(-2px);
+}
+
+.activity-label {
+    font-weight: bold;
+    color: var(--blue);
+}
+
+.no-activity {
+    text-align: center;
+    color: var(--text);
+    font-size: 1rem;
+}
+
+.activity-list-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.activity-list-container::-webkit-scrollbar-thumb {
+    background-color: var(--grey2);
+    border-radius: 4px;
+}
+
+.activity-list-container::-webkit-scrollbar-thumb:hover {
+    background-color: var(--grey);
+}

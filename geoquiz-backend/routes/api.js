@@ -1,8 +1,12 @@
 const express = require('express');
+const axios = require('axios');
 const router = express.Router();
 const admin = require('firebase-admin');
 const db = admin.firestore();
 const verifyToken = require('../verifyToken');
+
+require('dotenv').config();
+const TRIVIA_API_URL = process.env.NEXT_PUBLIC_TRIVIA_API_URL;
 
 // Register a new user
 router.post('/register', async (req, res) => {
@@ -14,12 +18,21 @@ router.post('/register', async (req, res) => {
         }
     
         const userRef = db.collection('users').doc(uid);
+
+        const initialActivities = Array(10).fill(null).map(() => ({
+            score: null,
+            difficulty: null,
+            date: null
+        }));
+
         await userRef.set({
           email: email,
           firstname: firstName,
           lastName: lastName,
           collections: [],
-          scores: [{date: "2024-10-22", currentScore: 0},{date: "2024-10-23", currentScore: 70},{date: "2024-10-24", currentScore: 100}]
+          activities: initialActivities,
+          scores: [{date: new Date().toISOString().split('T')[0], currentScore: 0}],
+          badges: [{lvl1: false}, {lvl2: false}, {lvl3: false}, {lvl4: false}]
         });
     
         res.status(201).json({ message: 'User registered successfully', uid });
@@ -170,6 +183,139 @@ router.get('/users/:uid/collections/:collectionName', async (req, res) => {
     } catch (error) {
         console.error('Error fetching collection:', error);
         res.status(500).json({ message: 'Error fetching collection', error });
+    }
+});
+
+//Get Badges
+router.get('/users/:uid/badges', async (req, res) => {
+    try {
+        const { uid } = req.params;
+
+        const userRef = db.collection('users').doc(uid);
+        const userDoc = await userRef.get();
+
+        if (!userDoc.exists) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const badges = userDoc.data().badges;
+
+        if (!badges || badges.length === 0) {
+            return res.status(404).json({ message: 'No badges found' });
+        }
+
+        res.status(200).json(badges);
+    } catch (error) {
+        console.error('Error fetching badges:', error);
+        res.status(500).json({ message: 'Error fetching badges', error });
+    }
+});
+
+// Update Badges
+router.put('/users/:uid/badges', async (req, res) => {
+    try {
+        const { uid } = req.params;
+
+        const userRef = db.collection('users').doc(uid);
+        const userDoc = await userRef.get();
+
+        if (!userDoc.exists) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const userData = userDoc.data();
+        const scores = userData.scores || [];
+
+        if (scores.length === 0) {
+            return res.status(400).json({ message: 'No scores found for user' });
+        }
+
+        const latestScore = scores[scores.length - 1]?.currentScore;
+
+        if (latestScore === undefined) {
+            return res.status(400).json({ message: 'Invalid score format' });
+        }
+
+        const badges = userData.badges || [
+            { lvl1: false },
+            { lvl2: false },
+            { lvl3: false },
+            { lvl4: false },
+        ];
+
+        const badgeThresholds = [250, 500, 750, 1000];
+        const badgeKeys = ['lvl1', 'lvl2', 'lvl3', 'lvl4'];
+
+        badgeThresholds.forEach((threshold, index) => {
+            badges[index] = { [badgeKeys[index]]: badges[index]?.[badgeKeys[index]] || (latestScore >= threshold) };
+        });
+
+        await userRef.update({ badges });
+        res.status(200).json({ message: 'Badges updated successfully', badges });
+    } catch (error) {
+        console.error('Error updating badges:', error);
+        res.status(500).json({ message: 'Error updating badges', error });
+    }
+});
+
+//Get Activities
+router.get('/users/:uid/activities', async (req, res) => {
+    try {
+        const { uid } = req.params;
+
+        const userRef = db.collection('users').doc(uid);
+        const userDoc = await userRef.get();
+
+        if (!userDoc.exists) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const activities = userDoc.data().activities;
+
+        if (!activities || activities.length === 0) {
+            return res.status(404).json({ message: 'No activities found' });
+        }
+
+        res.status(200).json(activities);
+    } catch (error) {
+        console.error('Error fetching activities:', error);
+        res.status(500).json({ message: 'Error fetching activities', error });
+    }
+});
+
+// Post Activity
+router.post('/users/:uid/activities', async (req, res) => {
+    try {
+        const { uid } = req.params;
+        const { score, difficulty, date } = req.body;
+
+        if (!score || !difficulty || !date) {
+            return res.status(400).json({ message: 'Missing required fields (score, difficulty, date)' });
+        }
+
+        const userRef = db.collection('users').doc(uid);
+        const userDoc = await userRef.get();
+
+        if (!userDoc.exists) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        let activities = userDoc.data().activities || [];
+
+        // Maintain the size of the activities array (maximum 10)
+        if (activities.length >= 10) {
+            activities.shift();
+        }
+
+        const newActivity = { score, difficulty, date };
+        activities.push(newActivity);
+
+        await userRef.update({ activities });
+
+        res.status(201).json({ message: 'Activity added successfully', activities });
+    } catch (error) {
+        console.error('Error adding activity:', error);
+        res.status(500).json({ message: 'Error adding activity', error: error.message });
     }
 });
 
@@ -421,6 +567,25 @@ router.put('/users/:uid', verifyToken, async (req, res) => {
         res.status(500).json({ message: 'Error updating user profile', error: error.message });
     }
 });
+
+// Fetch geography questions
+router.get('/trivia/geography', async (req, res) => {
+    const { amount = 10, difficulty = 'medium' } = req.query; // Accept difficulty from query
+    try {
+        const response = await axios.get(TRIVIA_API_URL, {
+            params: {
+                categories: 'geography',
+                limit: amount,
+                difficulty,
+            },
+        });
+        res.status(200).json(response.data);
+    } catch (error) {
+        console.error('Error fetching geography questions:', error.message);
+        res.status(500).json({ message: 'Failed to fetch geography questions', error: error.message });
+    }
+});
+
 
 
 module.exports = router;
