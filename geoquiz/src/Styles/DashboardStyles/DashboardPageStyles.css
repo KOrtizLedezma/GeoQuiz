@@ -29,7 +29,7 @@
 }
 
 .left-container {
-    border: 1px solid var(--grey2);
+    border: 1px solid var(--black);
     border-radius: 20px;
     height: 90%;
     display: flex;
@@ -54,7 +54,7 @@
     border-radius: 0.5rem;
     font-size: 1rem;
     font-weight: 500;
-    color: var(--grey);
+    color: var(--black);
     text-align: left;
     transition: all 0.3s ease;
     cursor: pointer;

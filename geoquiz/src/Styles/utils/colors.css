@@ -1,11 +1,13 @@
 :root{
-    --background : #FFFFFF;
     --headerfooterbckg : #FFFFFF;
-    --blue : #0070f3;
+    --blue : #051a67;
+    --green: rgba(10, 110, 45, 0.845);
+    --green2:rgba(5, 89, 32, 0.968);
     --text : #171717;
     --text-hover : #333;
     --black: #171717;
-    --grey: #333;
+    --darkergray:#454545;
+    --grey: #9f9f9f;
     --grey2: #DDD;
     --white: #ffffff;
     --placeholder: #999;
@@ -13,4 +15,13 @@
     --green: #7CFC00;
     --red: #FF5733;
     --yellow: #FFFF8F;
+    --dark-gray: #555555;
+    --background-light: #ffffff;
+    --background: #dff0f6;
+    --backgroundFlashcard: #c5e2f3;
+    --text-primary: #333333;
+    --text-secondary: #777777;
+    --light-grey: #e0e0e0;
+
+
 }
