@@ -4,6 +4,7 @@
 
 :root {
     --text: #171717;
+    --blue: #022185;
 }
 
 .title {
@@ -11,7 +12,7 @@
     font-size: 2.5rem;
     font-weight: bold;
     margin: 40px 0;
-    color: var(--text);
+    color: var(--blue);
 }
 
 .two-sides-container{
