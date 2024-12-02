@@ -1,27 +1,46 @@
 @import url(../utils/colors.css);
+
 .bouncing-title-container {
     font-size: 7rem;
     font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60vh; 
+    height: 60vh;
     width: 60vh;
     color: var(--black);
     position: relative;
-    margin: auto; 
-    margin-top: 10vh; 
-
+    margin: auto;
+    margin-top: 10vh;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
     /* Gradient background */
     background: radial-gradient(
         circle,
-        #77d577, /* Green center */
-        #87ceeb, /* Sky blue transition */
-        #0a15dd 
+        #77d577, /* Green  */
+        #87ceeb, 
+        #0a15dd  /* Deep blue outer edge */
     );
-
-    /* Circle shape */
     border-radius: 50%;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 
+        0px 4px 8px rgba(0, 0, 0, 0.2), 
+        0 0 20px rgba(10, 21, 221, 0.8),
+        0 0 40px rgba(10, 21, 221, 0.6);
+    animation: pulse 2s infinite
 }
+
+/* Pulsing Animation */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
 
