@@ -87,20 +87,18 @@
 }
 
 .button {
-    background-color: var(--grey);
-    color: var(--white);
-    padding: 8px 16px;
-    font-size: 14px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
     border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.1s ease;
+    border-radius: 5px;
+    font-weight: bold;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 10vw;
+    transition: background-color 0.3s ease;
 }
 
 .button:hover {
     background-color: var(--blue);
-    transform: translateY(-1px);
+    cursor: pointer;
 }
 

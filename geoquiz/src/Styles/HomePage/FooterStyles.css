@@ -5,7 +5,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: var(--headerfooterbckg);
+    background: linear-gradient(to right, #3c46ff,#87ceeb,#77d577);
     padding: 10px 20px;
 }
   
