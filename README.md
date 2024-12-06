@@ -1,43 +1,62 @@
-
 # GeoQuiz Project
+
 ## Overview
+
 GeoQuiz is an innovative educational platform designed to make learning geography engaging and enjoyable. By incorporating gamification elements, collaborative tools, and customizable flashcard creation, GeoQuiz transforms the traditional study experience into an interactive and goal-oriented journey.
 
 ### Key Features
 
 1. **Interactive Question Mini-Game**
-  - Test your geography knowledge through a fun and competitive game format.
+
+   - Test your geography knowledge through a fun and competitive game format.
+
 2. **Flashcard Creation & Collections**
-  - Create your own flashcards, organize them into collections, and share them with others for collaborative learning.
+
+   - Create your own flashcards, organize them into collections, and share them with others for collaborative learning.
+
 3. **Badge System & Progress Tracking**
-  - Earn achievements, level up, and track your progress as you complete activities and challenges.
+
+   - Earn achievements, level up, and track your progress as you complete activities and challenges.
+
 4. **Collaborative Flashcard Sharings**
-  - Share flashcards with peers, fostering a collaborative and engaging study environment.
+
+   - Share flashcards with peers, fostering a collaborative and engaging study environment.
+
 5. **Dashboard Tabs**
-  - Organized interface for accessing activities, achievements, progress tracking, and user profiles.
+
+   - Organized interface for accessing activities, achievements, progress tracking, and user profiles.
+
 6. **CRUD Operations**
-  - Fully implemented Create, Read, Update, Delete functionality for quizzes and flashcards.
+
+   - Fully implemented Create, Read, Update, Delete functionality for quizzes and flashcards.
+
 7. **Virtual Geography Tasks**
-  - Participate in map-based games and other geography activities to enhance learning and retention.
+
+   - Participate in map-based games and other geography activities to enhance learning and retention.
 
 ### Project Vision
-**FOR** 
+
+## **FOR**
+
 - Students seeking an engaging and collaborative way to enhance their geographical knowledge.
   
-**WHO**
+## **WHO**
+
 - Individuals who find it challenging to prepare for geography quizzes or wish to study in a fun, competitive environment.
   
-**THAT**
+## **THAT**
+
 - Provides a platform for creating, collaborating, and testing each other through interactive quizzes and customizable flashcards.
   
-**UNLIKE**
+## **UNLIKE**
+
 - Conventional online study tools that lack incentives, rewards, and interactive map-based games.
   
-**OUR PRODUCT**
+## **OUR PRODUCT**
+
 - GeoQuiz leverages gamification, collaborative features, and visual tools to make geography education dynamic, enjoyable, and competitive.
 
-## How to get Started
-
+## **How to get Started**
 
 This project is divided into two parts: the **Frontend** and the **Backend**. Each section below explains the necessary steps to set up and run the application.
 
@@ -61,46 +80,7 @@ This project is divided into two parts: the **Frontend** and the **Backend**. Ea
    npm install
    ```
 
-3. **Required Packages:**
-   The following packages need to be installed:
-   - **Firebase** for authentication and Firestore interaction.
-   - **Framer Motion** for animations.
-
-   These are already listed in `package.json`, but you can manually install them if needed:
-
-   ```bash
-   npm install firebase
-   ```
-
-   ```bash
-   npm install framer-motion
-   ```
-
-   ```bash
-   npm install axios
-   ```
-
-   ```bash
-   npm install dotenv
-   ```
-
-   ```bash
-   npm install react-icons
-   ```
-
-   ```bash
-   npm install chart.js
-   ```
-
-   ```bash
-   npm install react-chartjs-2
-   ```
-
-   ```bash
-   npm install chartjs-adapter-date-fns
-   ```
-
-4. **Environment Variables:**
+3. **Environment Variables:**
    You will need to create a `.env` file at the root of the `geoquiz` directory with your Firebase configuration details.
 
    Example `.env` file:
@@ -117,7 +97,7 @@ This project is divided into two parts: the **Frontend** and the **Backend**. Ea
    NEXT_PUBLIC_PORT=5000
    ```
 
-5. **Running the Frontend:**
+4. **Running the Frontend:**
    To start the frontend application, run:
 
    ```bash
@@ -126,9 +106,9 @@ This project is divided into two parts: the **Frontend** and the **Backend**. Ea
 
    The application will be available at `http://localhost:3000`.
 
-6. **Notes**
-   * If you get a Network Error, try changing the port number in both Frontend and Backend.
-   * Make sure that your `NEXT_PUBLIC_PORT` has the same value in both Frontend and Backend.
+5. **Notes**
+   - If you get a Network Error, try changing the port number in both Frontend and Backend.
+   - Make sure that your `NEXT_PUBLIC_PORT` has the same value in both Frontend and Backend.
 
 ---
 
@@ -150,43 +130,29 @@ This project is divided into two parts: the **Frontend** and the **Backend**. Ea
    npm init -y
    ```
 
-3. **Required Packages:**
-   The following packages are required:
-   - **Firebase Admin SDK** for managing Firebase authentication and Firestore access.
-   - **Nodemon** for automatically restarting the server during development.
-
-   You can install them manually if needed:
-
    ```bash
-   npm install firebase-admin
+   npm install
    ```
 
-   ```bash
-   npm install nodemon
-   ```
-
-   ```bash
-   npm install dotenv
-   ```
-
-4. **Service Account Key:**
+3. **Service Account Key:**
    You will need to include the `serviceAccountKey.json` file from Firebase for accessing Firebase Admin features. Make sure the `serviceAccountKey.json` file is placed in the `geoquiz-backend` directory. This file contains sensitive information, so be sure **not** to commit it to your repository.
 
-5. **Environment Variables:**
+4. **Environment Variables:**
    You will need to create a `.env` file on the backend and add the following line of code to the file.
 
    ```bash
    NEXT_PUBLIC_PORT=5000
+   NEXT_PUBLIC_TRIVIA_API_URL=https://the-trivia-api.com/api/questions
    ```
 
-6. **Running the Backend:**
+5. **Running the Backend:**
    To run the backend with `nodemon` for automatic restarts, use the following command:
 
    ```bash
    nodemon server.js
    ```
 
-   If the server gets any error while deploying, try changing the port on the `.env` to `5001, 5002, ...` 
+   If the server gets any error while deploying, try changing the port on the `.env` to `5001, 5002, ...`
 
 ---
 
@@ -194,3 +160,4 @@ This project is divided into two parts: the **Frontend** and the **Backend**. Ea
 
 - Ensure that both the frontend and backend are running simultaneously for the full functionality of the application.
 - Be careful not to expose sensitive credentials like your Firebase config or `serviceAccountKey.json` publicly.
+- If you are unable to see certain buttons or elements, please try reducing the zoom level in your browser.
